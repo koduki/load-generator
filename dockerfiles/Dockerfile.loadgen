@@ -1,0 +1,13 @@
+FROM elixir
+
+ADD ./ /app
+WORKDIR /app
+
+ENV MIX_ENV prod 
+
+RUN mix local.hex --force
+RUN mix local.rebar --force
+RUN mix deps.get --only-prod
+RUN mix escript.build
+
+CMD [ "./loadgen" ]
